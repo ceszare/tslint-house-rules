@@ -1,0 +1,32 @@
+{
+  "name": "tslint-house-rules",
+  "version": "1.0.0",
+  "description": "Opinionated extension of the tslint:preferred rules by Palantir, adjusted to my liking.",
+  "keywords": [
+    "tslint",
+    "tslint-rules",
+    "typescript",
+    "clean-code"
+  ],
+  "author": {
+    "name": "Cesar Zapata",
+    "email": "community@ceszare.com"
+  },
+  "license": "MIT",
+  "main": "tslint.js",
+  "dependencies": {
+    "tslint-eslint-rules": "5.x"
+  },
+  "peerDependencies": {
+    "tslint": "5.x",
+    "typescript": "2.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ceszare/tslint-house-rules.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ceszare/tslint-house-rules/issues"
+  },
+  "homepage": "https://github.com/ceszare/tslint-house-rules#readme"
+}
