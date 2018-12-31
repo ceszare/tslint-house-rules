@@ -2,16 +2,31 @@ const path = require('path');
 
 module.exports = {
     rulesDirectory: [
-        // path.join(path.dirname(require.resolve('tslint-eslint-rules')), 'dist/rules')
-        './node_modules/tslint-eslint-rules/dist/rules'
+        path.join(path.dirname(require.resolve('tslint-eslint-rules')), 'dist/rules')
     ],
-    // Extends are overriden left-to-right (tslint:recommended overrides tslint-eslint-rules)
+    // Extends are overriden left-to-right (e.g. tslint:recommended overrides tslint-eslint-rules)
     extends: [
         'tslint-eslint-rules',
-        'tslint:recommended'
+        'tslint:recommended',
+        'tslint-react',
+        'tslint-config-prettier'
     ],
     jsRules: {},
     rules: {
+        /*
+            disallows spaces inside array brackets (aligns with AirBnB)
+            https://github.com/buzinas/tslint-eslint-rules/blob/master/src/docs/rules/arrayBracketSpacingRule.md
+            default value: N/A
+            source: N/A
+        */
+       "array-bracket-spacing": [true, 'never'],
+       /*
+           forbids (x) => { x; } if favor of x => { x; }
+           https://palantir.github.io/tslint/rules/array-type/
+           default value: true
+           source: 'tslint:recommended'
+       */
+       "arrow-parens": [true, 'ban-single-arg-parens'],
         /*
             Enforces traditional ECMAScript brace style (aligns with AirBnB's style guide).
 
@@ -50,6 +65,90 @@ module.exports = {
             source: 'tslint:recommended'
         */
        'jsdoc-format': [true, 'check-multiline-start'],
+        /*
+            enforces consistent styling for multiline JSX elements
+            https://github.com/palantir/tslint-react#rules
+            default value: N/A
+            source: 'tslint-react'
+        */
+       "jsx-alignment": [true],
+       /*
+           enforces omitting the value of a boolean prop if the value is true
+           https://github.com/palantir/tslint-react#rules
+           default value: [true, 'always'],
+           source: 'tslint-react'
+       */        
+       "jsx-boolean-value": [true, 'never'],
+       /*
+           bans spaces between curly brace characters in JSX
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */        
+       "jsx-curly-spacing": [true, 'never'],
+       /*
+           bans spaces before and after the = token in JSX element attributes
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */        
+       "jsx-equals-spacing": [true, 'never'],
+       /*
+           Warns for missing key props in JSX element array literals and inside return statements of Array.prototype.map callbacks
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */        
+       "jsx-key": [true],
+       /*
+           Forbids function binding in JSX attributes. This can still be done at the constructors
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */
+       "jsx-no-bind": [true],
+       /*
+           forbids craeting anonymous functions inside the render call stack
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */
+       "jsx-no-lambda": [true],
+       /*
+           disallows multiline JS expressions inside JSX blocks to promote readability
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */
+       "jsx-no-multiline-js": [true],
+       /*
+           forbids passing strings to the ref prop of React elements
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */
+       "jsx-no-string-ref": [true],
+       /*
+           enforces that JSX elements with no children are self-closing
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */
+       "jsx-self-close": [true],
+       /*
+           enforces that self-closing JSX elements have a space before the '/>' part
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */
+       "jsx-space-before-trailing-slash": [true],
+       /*
+           enforces that multiline JSX expressions are wrapped with parentheses
+           https://github.com/palantir/tslint-react#rules
+           default value: N/A
+           source: 'tslint-react'
+       */
+       "jsx-wrap-multiline": [true],
         /*
             Preserves Palantir's recommended line length limit, while excluding a few cases where enforcing the
             limit may be detrimental to the code's readability:
@@ -137,12 +236,13 @@ module.exports = {
         'object-literal-sort-keys': [true, 'ignore-case'],
         /*
             Enforces single quotes, and forbids the use of template strings if we don't use interpolation.
+            For JSX we use double quotes to follow AirBnB's standard.
 
             https://palantir.github.io/tslint/rules/quotemark/
             default value: [true, 'double', 'avoid-escape']
             source: 'tslint:recommended'
         */
-       quotemark: [true, 'single', 'avoid-template'],
+       quotemark: [true, 'single', 'jsx-double', 'avoid-template'],
         /*
             Enforces zero spaces inside of parenthesis (stylistic preference)
 
@@ -172,7 +272,7 @@ module.exports = {
        */
        "ter-indent": [
            true,
-           4,
+           2,
            {
                "SwitchCase": 1
            }
@@ -204,6 +304,21 @@ module.exports = {
             'check-format',
             'allow-leading-underscore',
             'allow-pascal-case'
-        ]
+        ],
+        /*
+            checks for all whitespace rules available. This is ok because fix mode can take care of it.
+            https://palantir.github.io/tslint/rules/whitespace/
+            default value: [
+                true,
+                'check-branch',
+                'check-decl',
+                'check-operator',
+                'check-separator',
+                'check-type',
+                'check-typecast'
+            ]
+            source: 'tslint:recommended'
+        */
+        whitespace: true
     }
 }
